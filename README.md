@@ -21,4 +21,4 @@ Feel free to clone this repository and explore. Just remember:
 
 ```bash
 git clone https://github.com/jasrasr/python.git
-cd python-playground
+cd python
