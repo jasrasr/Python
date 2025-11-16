@@ -51,28 +51,37 @@ def show_menu():
 
         pygame.display.flip()
 
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
+for event in pygame.event.get():
+    if event.type == pygame.QUIT:
+        running = False
+    elif event.type == pygame.KEYDOWN:
+        if event.key == pygame.K_UP:
+            selected_index = (selected_index - 1) % len(usernames)
+        elif event.key == pygame.K_DOWN:
+            selected_index = (selected_index + 1) % len(usernames)
+        elif event.key == pygame.K_RETURN:
+            selected_player = usernames[selected_index]
+            menu_running = False
+        elif event.key == pygame.K_ESCAPE:
+            pygame.quit()
+            sys.exit()
+
                 
 # --- Save score data ---
-score_data[selected_player]["history"].append({"score": score, "time": datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
+score_data[selected_player]["history"].append({
+    "score": score,
+    "time": datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+})
+
 if score > score_data[selected_player]["high_score"]:
     score_data[selected_player]["high_score"] = score
+
 with open(score_file, "w") as f:
     json.dump(score_data, f, indent=2)
 
 pygame.quit()
+sys.exit()
 
-                sys.exit()
-            elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_UP:
-                    selected_index = (selected_index - 1) % len(usernames)
-                elif event.key == pygame.K_DOWN:
-                    selected_index = (selected_index + 1) % len(usernames)
-                elif event.key == pygame.K_RETURN:
-                    selected_player = usernames[selected_index]
-                    menu_running = False
-                elif event.key == pygame.K_ESCAPE:
                     
 # --- Save score data ---
 score_data[selected_player]["history"].append({"score": score, "time": datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
